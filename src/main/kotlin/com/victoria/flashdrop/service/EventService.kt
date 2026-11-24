@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @Service
 class EventService(
@@ -28,6 +29,8 @@ class EventService(
         venue: String?,
         name: String?,
         availableOnly: Boolean?,
+        fromStartsAt: Instant?,
+        toStartsAt: Instant?,
         pageable: Pageable
     ): PaginatedResponse<EventResponse> {
 
@@ -57,6 +60,16 @@ class EventService(
                     cb.like(
                         cb.lower(root.get("title")),
                         "%${name.lowercase()}%"
+                    )
+                )
+            }
+
+            if (toStartsAt != null && fromStartsAt != null) {
+                predicates.add(
+                    cb.between(
+                        root.get<Instant>("startsAt"),
+                        fromStartsAt,
+                        toStartsAt
                     )
                 )
             }

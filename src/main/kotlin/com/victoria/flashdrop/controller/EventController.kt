@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import java.time.Instant
 
 @RestController
 @RequestMapping("/events")
@@ -24,6 +25,8 @@ class EventController(private val eventService: EventService) {
         @RequestParam(required = false) venue: String?,
         @RequestParam(required = false) name: String?,
         @RequestParam(required = false) availableOnly: Boolean?,
+        @RequestParam(required = false) fromStartsAt: Instant?,
+        @RequestParam(required = false) toStartsAt: Instant?,
         @PageableDefault(
             size = 10,
             page = 0,
@@ -32,7 +35,15 @@ class EventController(private val eventService: EventService) {
         )
         pageable: Pageable
     ): PaginatedResponse<EventResponse> {
-        return eventService.getEvents(city, venue, name, availableOnly, pageable)
+        return eventService.getEvents(
+            city,
+            venue,
+            name,
+            availableOnly,
+            fromStartsAt,
+            toStartsAt,
+            pageable
+        )
     }
 
     @PostMapping
