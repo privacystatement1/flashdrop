@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
+import java.util.UUID
 
 @RestController
 @RequestMapping("/events")
@@ -43,6 +45,44 @@ class EventController(private val eventService: EventService) {
             fromStartsAt,
             toStartsAt,
             pageable
+        )
+    }
+
+    @GetMapping("/cursor")
+    fun getEventsCursorBasedPagination(
+        @RequestParam(required = false) city: String?,
+        @RequestParam(required = false) venue: String?,
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) availableOnly: Boolean?,
+        @RequestParam(required = true) fromStartsAt: Instant,
+        @RequestParam(required = true) toStartsAt: Instant,
+        @RequestParam(defaultValue = "20") size: Int,
+        @RequestParam(required = false) cursorStartsAt: Instant?,
+        @RequestParam(required = false) cursorId: UUID?
+
+    ): CursorPaginatedResponse<EventResponse> {
+        if ((cursorStartsAt == null) != (cursorId == null)) {
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Both cursorStartsAt and cursorId must be provided"
+            )
+        }
+
+        val cursor = if (cursorStartsAt != null && cursorId != null) {
+            EventCursor(cursorStartsAt, cursorId)
+        } else {
+            null
+        }
+
+        return eventService.getEventsCursor(
+            city = city,
+            venue = venue,
+            name = name,
+            availableOnly = availableOnly,
+            fromStartsAt = fromStartsAt,
+            toStartsAt = toStartsAt,
+            size = size,
+            cursor = cursor
         )
     }
 
