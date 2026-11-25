@@ -1,4 +1,4 @@
-package com.victoria.flashdrop.controller
+package com.victoria.flashdrop.controller.request
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Positive

@@ -1,5 +1,10 @@
 package com.victoria.flashdrop.controller
 
+import com.victoria.flashdrop.controller.request.CreateEventRequest
+import com.victoria.flashdrop.controller.request.EventCursor
+import com.victoria.flashdrop.controller.response.CursorPaginatedResponse
+import com.victoria.flashdrop.controller.response.EventResponse
+import com.victoria.flashdrop.controller.response.PaginatedResponse
 import com.victoria.flashdrop.service.EventService
 import jakarta.validation.Valid
 import org.springframework.data.web.PageableDefault
@@ -21,7 +26,7 @@ import java.util.UUID
 @RequestMapping("/events")
 class EventController(private val eventService: EventService) {
 
-    @GetMapping("")
+    @GetMapping
     fun getEvents(
         @RequestParam(required = false) city: String?,
         @RequestParam(required = false) venue: String?,

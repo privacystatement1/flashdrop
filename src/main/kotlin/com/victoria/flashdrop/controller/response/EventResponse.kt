@@ -1,4 +1,4 @@
-package com.victoria.flashdrop.controller
+package com.victoria.flashdrop.controller.response
 
 import java.util.UUID
 import java.time.Instant
