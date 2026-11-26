@@ -32,7 +32,7 @@ class ReservationService(
 
     @Transactional
     fun reserveTickets(reservationRequest: CreateReservationRequest): ReservationResponse {
-        if (reservationRequest.quantity < 0 || reservationRequest.quantity > 5) {
+        if (reservationRequest.quantity !in 1..5) {
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Unsupported reservation quantity"
