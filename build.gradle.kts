@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
     testImplementation("org.springframework.boot:spring-boot-resttestclient")
+    testImplementation("io.mockk:mockk:1.14.6")
 }
 
 kotlin {
