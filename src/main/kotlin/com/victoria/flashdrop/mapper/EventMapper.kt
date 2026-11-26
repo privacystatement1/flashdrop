@@ -1,7 +1,7 @@
 package com.victoria.flashdrop.mapper
 
-import com.victoria.flashdrop.controller.CreateEventRequest
-import com.victoria.flashdrop.controller.EventResponse
+import com.victoria.flashdrop.controller.request.CreateEventRequest
+import com.victoria.flashdrop.controller.response.EventResponse
 import com.victoria.flashdrop.model.Event
 
 

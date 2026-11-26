@@ -1,10 +1,10 @@
 package com.victoria.flashdrop.service
 
-import com.victoria.flashdrop.controller.CreateEventRequest
-import com.victoria.flashdrop.controller.CursorPaginatedResponse
-import com.victoria.flashdrop.controller.EventCursor
-import com.victoria.flashdrop.controller.EventResponse
-import com.victoria.flashdrop.controller.PaginatedResponse
+import com.victoria.flashdrop.controller.request.CreateEventRequest
+import com.victoria.flashdrop.controller.response.CursorPaginatedResponse
+import com.victoria.flashdrop.controller.request.EventCursor
+import com.victoria.flashdrop.controller.response.EventResponse
+import com.victoria.flashdrop.controller.response.PaginatedResponse
 import com.victoria.flashdrop.mapper.toEntity
 import com.victoria.flashdrop.mapper.toResponse
 import com.victoria.flashdrop.model.Event
