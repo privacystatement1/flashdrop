@@ -10,7 +10,10 @@ import org.testcontainers.postgresql.PostgreSQLContainer
 @Testcontainers
 @AutoConfigureRestTestClient
 @SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = [
+        "flashdrop.reservations.expiration.enabled=false"
+    ]
 )
 abstract class AbstractIntegrationTest {
 

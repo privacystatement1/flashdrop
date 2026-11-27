@@ -32,6 +32,6 @@ class ReservationController(private val reservationService: ReservationService) 
     fun createEvent(
         @Valid @RequestBody request: CreateReservationRequest
     ): ReservationResponse {
-        return reservationService.reserveTickets(request)
+        return reservationService.createReservation(request)
     }
 }

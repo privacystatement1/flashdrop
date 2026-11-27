@@ -7,11 +7,13 @@ import com.victoria.flashdrop.mapper.toResponse
 import com.victoria.flashdrop.model.EventRepository
 import com.victoria.flashdrop.model.Reservation
 import com.victoria.flashdrop.model.ReservationRepository
+import com.victoria.flashdrop.model.ReservationStatus
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
+import java.time.Instant
 import java.util.UUID
 
 @Service
@@ -31,7 +33,7 @@ class ReservationService(
 
 
     @Transactional
-    fun reserveTickets(reservationRequest: CreateReservationRequest): ReservationResponse {
+    fun createReservation(reservationRequest: CreateReservationRequest): ReservationResponse {
         if (reservationRequest.quantity !in 1..5) {
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
@@ -64,5 +66,58 @@ class ReservationService(
 
         return savedReservation.toResponse()
 
+    }
+
+    @Transactional
+    fun expireReservation(reservationId: UUID): Boolean {
+
+        val reservation = reservationRepository
+            .findByIdForUpdate(reservationId)
+            ?: return false
+
+        // Only held reservations can expire.
+        if (reservation.status != ReservationStatus.HELD) {
+            return false
+        }
+
+        // Do not expire reservations before their expiration time.
+        if (reservation.expiresAt.isAfter(Instant.now())) {
+            return false
+        }
+
+        val event = eventRepository.findByIdForUpdate(
+            reservation.event.id
+        ) ?: error("Event associated with reservation does not exist")
+
+        event.availableTickets += reservation.quantity
+
+        reservation.status = ReservationStatus.EXPIRED
+
+        return true
+    }
+
+    @Transactional
+    fun cancelReservation(reservationId: UUID): Boolean {
+
+        val reservation = reservationRepository
+            .findByIdForUpdate(reservationId)
+            ?: throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Reservation does not exist"
+            )
+
+        if (reservation.status != ReservationStatus.HELD) {
+            return false
+        }
+
+        val event = eventRepository.findByIdForUpdate(
+            reservation.event.id
+        ) ?: error("Event associated with reservation does not exist")
+
+        event.availableTickets += reservation.quantity
+
+        reservation.status = ReservationStatus.CANCELLED
+
+        return true
     }
 }
