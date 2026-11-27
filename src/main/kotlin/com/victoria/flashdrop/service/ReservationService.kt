@@ -39,7 +39,7 @@ class ReservationService(
             )
         }
 
-        val event = eventRepository.findByIdOrNull(reservationRequest.eventId) ?:
+        val event = eventRepository.findByIdForUpdate(reservationRequest.eventId) ?:
         throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Event does not exist"
@@ -51,7 +51,6 @@ class ReservationService(
         if (event.availableTickets >= reservation.quantity) {
 
             event.availableTickets -= reservation.quantity
-            eventRepository.saveAndFlush(event)
             savedReservation = reservationRepository.saveAndFlush(reservation)
 
         } else {
