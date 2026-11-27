@@ -56,7 +56,7 @@ class ReservationServiceTest {
         mockReservationSave()
 
         // When
-        val response = reservationService.reserveTickets(request)
+        val response = reservationService.createReservation(request)
 
         // Then
         assertThat(response.eventId).isEqualTo(event.id)
@@ -96,7 +96,7 @@ class ReservationServiceTest {
         mockReservationSave()
 
         // When
-        val response = reservationService.reserveTickets(request)
+        val response = reservationService.createReservation(request)
 
         // Then
         assertThat(response.quantity).isEqualTo(3)
@@ -124,7 +124,7 @@ class ReservationServiceTest {
         mockReservationSave()
 
         // When
-        val response = reservationService.reserveTickets(request)
+        val response = reservationService.createReservation(request)
 
         // Then
         assertThat(response.quantity).isEqualTo(3)
@@ -152,7 +152,7 @@ class ReservationServiceTest {
         mockReservationSave()
 
         // When
-        val response = reservationService.reserveTickets(request)
+        val response = reservationService.createReservation(request)
 
         // Then
         assertThat(response.quantity).isEqualTo(5)
@@ -178,7 +178,7 @@ class ReservationServiceTest {
 
         // When
         val exception = assertThrows<ResponseStatusException> {
-            reservationService.reserveTickets(request)
+            reservationService.createReservation(request)
         }
 
         // Then
@@ -212,7 +212,7 @@ class ReservationServiceTest {
 
         // When
         val exception = assertThrows<ResponseStatusException> {
-            reservationService.reserveTickets(request)
+            reservationService.createReservation(request)
         }
 
         // Then
@@ -249,7 +249,7 @@ class ReservationServiceTest {
 
         // When
         val exception = assertThrows<ResponseStatusException> {
-            reservationService.reserveTickets(request)
+            reservationService.createReservation(request)
         }
 
         // Then
@@ -286,7 +286,7 @@ class ReservationServiceTest {
 
         // When
         val exception = assertThrows<ResponseStatusException> {
-            reservationService.reserveTickets(request)
+            reservationService.createReservation(request)
         }
 
         // Then
