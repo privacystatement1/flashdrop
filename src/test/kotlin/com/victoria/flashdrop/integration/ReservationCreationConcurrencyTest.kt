@@ -18,7 +18,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class ReservationConcurrencyTest : AbstractIntegrationTest() {
+class ReservationCreationConcurrencyTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var eventRepository: EventRepository

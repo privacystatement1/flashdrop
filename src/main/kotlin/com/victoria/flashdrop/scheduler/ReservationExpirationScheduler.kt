@@ -4,6 +4,7 @@ import com.victoria.flashdrop.model.ReservationRepository
 import com.victoria.flashdrop.model.ReservationStatus
 import com.victoria.flashdrop.service.ReservationService
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.domain.PageRequest
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -20,6 +21,12 @@ class ReservationExpirationScheduler(
     )
 
     @Scheduled(fixedDelay = 10_000)
+    @ConditionalOnProperty(
+        prefix = "flashdrop.reservations.expiration",
+        name = ["enabled"],
+        havingValue = "true",
+        matchIfMissing = true
+    )
     fun expireReservations() {
 
         val reservationIds =
