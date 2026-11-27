@@ -120,4 +120,23 @@ class ReservationService(
 
         return true
     }
+
+    @Transactional
+    fun confirmReservation(reservationId: UUID): Boolean {
+
+        val reservation = reservationRepository
+            .findByIdForUpdate(reservationId)
+            ?: throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Reservation does not exist"
+            )
+
+        if (reservation.status != ReservationStatus.HELD) {
+            return false
+        }
+
+        reservation.status = ReservationStatus.CONFIRMED
+
+        return true
+    }
 }

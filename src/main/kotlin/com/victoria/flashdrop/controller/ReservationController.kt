@@ -34,4 +34,20 @@ class ReservationController(private val reservationService: ReservationService) 
     ): ReservationResponse {
         return reservationService.createReservation(request)
     }
+
+    @PostMapping("/{id}/confirm")
+    fun confirmReservation(
+        @PathVariable("id") id: UUID
+    ): ReservationResponse {
+        reservationService.confirmReservation(id)
+        return reservationService.getReservation(id)
+    }
+
+    @PostMapping("/{id}/cancel")
+    fun cancelReservation(
+        @PathVariable("id") id: UUID
+    ): ReservationResponse {
+        reservationService.cancelReservation(id)
+        return reservationService.getReservation(id)
+    }
 }
